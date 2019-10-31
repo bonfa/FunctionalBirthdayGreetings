@@ -1,4 +1,8 @@
-import {createBirthdayEmailsFor, filterEmployeesHavingBirthday, isBirthday} from "../source/main";
+import {
+  createBirthdayEmailsFor,
+  filterEmployeesHavingBirthday,
+  isBirthday
+} from "../source/main";
 import {MyDate} from "../source/MyDate";
 import {Employee} from "../source/Employee";
 import {Email} from "../source/Email";
@@ -38,7 +42,7 @@ describe('createBirthdayEmailsForEmployees', () => {
       )];
 
     const emails = createBirthdayEmailsFor(
-      filterEmployeesHavingBirthday(employees, today())
+      filterEmployeesHavingBirthday(employees)(today())
     );
 
     expect(emails).toEqual([new Email("Happy birthday!", "Happy birthday, dear Paolo!")]);

@@ -34,12 +34,8 @@ const removeOneDayFrom = (date: MyDate) => new MyDate(
 
 export const isBirthday = (employee: Employee, today: MyDate): boolean => employee.dateOfBirth.month === today.month && employee.dateOfBirth.day === today.day;
 
-export const filterEmployeesHavingBirthdayCurry: (employees: Employee[]) => (date: MyDate) => Employee[] = (employees:  Employee[]) => {
+export const filterEmployeesHavingBirthday: (employees: Employee[]) => (date: MyDate) => Employee[] = (employees:  Employee[]) => {
   return (date: MyDate) => employees.filter(employee => isBirthday(employee, date))
-};
-
-export const filterEmployeesHavingBirthday: (employees: Employee[], today: MyDate) => Employee[] = (employees:  Employee[], today: MyDate) => {
-  return employees.filter(employee => isBirthday(employee, today))
 };
 
 function createBirthdayEmailFor(employee: Employee) {
@@ -59,7 +55,7 @@ const today = () => new MyDate(31, 10, 2019);
 
 sendEmails(
   createBirthdayEmailsFor(
-    filterEmployeesHavingBirthday(loadEmployees(),today())
+    filterEmployeesHavingBirthday(loadEmployees())(today())
   )
 );
 
