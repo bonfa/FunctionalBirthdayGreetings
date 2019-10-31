@@ -1,0 +1,41 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "cd app/__test__ && NODE_ENV=test jest --no-cache",
+    "build": "tsc",
+    "lint:staged": "lint-staged && git add app",
+    "start": "npm run build && node dist/source/main.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "24.0.13",
+    "lint-staged": "8.1.1",
+    "jest": "24.6.0",
+    "ts-jest": "24.0.2",
+    "tslint": "5.10.0",
+    "tslint-config-lmn": "git+ssh://git@git01.bravofly.com:10022/frontend-components/tslint-config-lmn.git#master",
+    "tslint-config-prettier": "1.13.0",
+    "typemoq": "2.1.0",
+    "typescript": "3.2.2"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{ts,tsx}": "tslint --fix"
+    }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/*Test.(ts|tsx)"
+    ]
+  }
+}
