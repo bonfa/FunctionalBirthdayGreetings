@@ -9,19 +9,19 @@ import {Email} from "../source/Email";
 
 describe('isBirthday', () => {
   it('same date', () => {
-    expect(isBirthday(anEmployeeWithBirthday(today()), today())).toBe(true);
+    expect(isBirthday(anEmployeeWithBirthday(today()))(today())).toBe(true);
   });
 
   it('same day and months, different years', () => {
-    expect(isBirthday(anEmployeeWithBirthday(removeTenYearFrom(today())), today())).toBe(true);
+    expect(isBirthday(anEmployeeWithBirthday(removeTenYearFrom(today())))(today())).toBe(true);
   });
 
   it('different months', () => {
-    expect(isBirthday(anEmployeeWithBirthday(removeOneMonthFrom(today())), today())).toBe(false);
+    expect(isBirthday(anEmployeeWithBirthday(removeOneMonthFrom(today())))(today())).toBe(false);
   });
 
   it('different days', () => {
-    expect(isBirthday(anEmployeeWithBirthday(removeOneDayFrom(today())), today())).toBe(false);
+    expect(isBirthday(anEmployeeWithBirthday(removeOneDayFrom(today())))(today())).toBe(false);
   });
 });
 

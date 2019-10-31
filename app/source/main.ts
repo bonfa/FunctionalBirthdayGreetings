@@ -32,10 +32,11 @@ const removeOneDayFrom = (date: MyDate) => new MyDate(
   date.year
 );
 
-export const isBirthday = (employee: Employee, today: MyDate): boolean => employee.dateOfBirth.month === today.month && employee.dateOfBirth.day === today.day;
+export const isBirthday: (employee: Employee) => ((day: MyDate) => (boolean)) =
+  (employee: Employee) => (day => employee.dateOfBirth.month === day.month && employee.dateOfBirth.day === day.day);
 
 export const filterEmployeesHavingBirthday: (employees: Employee[]) => (date: MyDate) => Employee[] = (employees:  Employee[]) => {
-  return (date: MyDate) => employees.filter(employee => isBirthday(employee, date))
+  return (date: MyDate) => employees.filter(employee => isBirthday(employee)(date))
 };
 
 function createBirthdayEmailFor(employee: Employee) {
