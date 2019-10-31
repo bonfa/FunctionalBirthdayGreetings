@@ -15,7 +15,7 @@ const loadEmployees: () => Employee[] = () => [];
 
 export const isBirthday = (employee: Employee, today: MyDate): boolean => employee.dateOfBirth.month === today.month && employee.dateOfBirth.day === today.day;
 
-export const filterEmployeesForWhichTodayIsTheBirthday: (employees: Employee[], today: MyDate) => Employee[] = (employees:  Employee[], today: MyDate) => {
+const filterEmployeesHavingBirthday: (employees: Employee[], today: MyDate) => Employee[] = (employees:  Employee[], today: MyDate) => {
   return employees.filter(employee => isBirthday(employee, today))
 };
 
@@ -27,7 +27,7 @@ const today = () => new MyDate(31, 10, 2019);
 
 sendEmails(
   createBirthdayEmailsFor(
-    filterEmployeesForWhichTodayIsTheBirthday(
+    filterEmployeesHavingBirthday(
       loadEmployees(),
       today()
     )
