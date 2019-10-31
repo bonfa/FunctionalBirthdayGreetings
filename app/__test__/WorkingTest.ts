@@ -1,6 +1,7 @@
-import {isBirthday} from "../source/main";
+import {createBirthdayEmailsFor, filterEmployeesHavingBirthday, isBirthday} from "../source/main";
 import {MyDate} from "../source/MyDate";
 import {Employee} from "../source/Employee";
+import {Email} from "../source/Email";
 
 describe('isBirthday', () => {
   it('same date', () => {
@@ -17,6 +18,30 @@ describe('isBirthday', () => {
 
   it('different days', () => {
     expect(isBirthday(anEmployeeWithBirthday(removeOneDayFrom(today())), today())).toBe(false);
+  });
+});
+
+describe('createBirthdayEmailsForEmployees', () => {
+  it("works", () => {
+    const employees = [
+      new Employee(
+        "Paolo",
+        "Rossi",
+        today(),
+        "email@email.com"
+      ),
+      new Employee(
+        "Giuseppe",
+        "Verdi",
+        removeOneDayFrom(today()),
+        "another@email.com"
+      )];
+
+    const emails = createBirthdayEmailsFor(
+      filterEmployeesHavingBirthday(employees, today())
+    );
+
+    expect(emails).toEqual([new Email("Happy birthday!", "Happy birthday, dear Paolo!")]);
   });
 });
 
