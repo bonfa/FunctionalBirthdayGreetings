@@ -1,32 +1,30 @@
-import {filterEmployeesForWhichTodayIsTheBirthday} from "../source/main";
+import {isBirthday} from "../source/main";
 import {MyDate} from "../source/MyDate";
 import {Employee} from "../source/Employee";
 
-describe('filterEmployeesForWhichTodayIsTheBirthday', () => {
-  it('one employee - no birthday', () => {
-    let filtered = filterEmployeesForWhichTodayIsTheBirthday([anEmployeeWithBirthday(removeOneDayFrom(today()))], today());
-
-    expect(filtered).toEqual([]);
+describe('isBirthday', () => {
+  it('same date', () => {
+    expect(isBirthday(anEmployeeWithBirthday(today()), today())).toBe(true);
   });
 
-  it('one employee - birthday', () => {
-    let filtered = filterEmployeesForWhichTodayIsTheBirthday([anEmployeeWithBirthday(removeTenYearFrom(today()))], today());
-
-    expect(filtered).toEqual([anEmployeeWithBirthday(removeTenYearFrom(today()))]);
+  it('same day and months, different years', () => {
+    expect(isBirthday(anEmployeeWithBirthday(removeTenYearFrom(today())), today())).toBe(true);
   });
 
-  it('many employees - one birthday', () => {
-    let filtered = filterEmployeesForWhichTodayIsTheBirthday(
-      [
-        anEmployeeWithBirthday(removeOneDayFrom(today())),
-        anEmployeeWithBirthday(removeTenYearFrom(today()))
-      ],
-      today()
-    );
+  it('different months', () => {
+    expect(isBirthday(anEmployeeWithBirthday(removeOneMonthFrom(today())), today())).toBe(false);
+  });
 
-    expect(filtered).toEqual([anEmployeeWithBirthday(removeTenYearFrom(today()))]);
+  it('different days', () => {
+    expect(isBirthday(anEmployeeWithBirthday(removeOneDayFrom(today())), today())).toBe(false);
   });
 });
+
+const removeOneMonthFrom = (date: MyDate) => new MyDate(
+  date.day,
+  date.month - 1,
+  date.year
+);
 
 const today = (): MyDate => new MyDate(
   31,
