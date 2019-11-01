@@ -1,7 +1,11 @@
 # FunctionalBirthdayGreetings
-A kata to exercise in functions
+A kata to exercise functions
 
-Exercise: http://matteo.vaccari.name/blog/archives/154
+Exercise description: http://matteo.vaccari.name/blog/archives/154
+
+## Steps
+* Make the program work
+* Go from program execution to program description 
 
 ## Pre-requirements
 A few steps are required in order to be able to run the test:
