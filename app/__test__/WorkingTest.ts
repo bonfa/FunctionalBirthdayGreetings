@@ -41,11 +41,11 @@ describe('createBirthdayEmailsForEmployees', () => {
         "another@email.com"
       )];
 
-    const emails = createBirthdayEmailsFor(
-      filterEmployeesHavingBirthday(employees)(today())
+    const birthdayEmailsCreator = createBirthdayEmailsFor(
+      () => filterEmployeesHavingBirthday(() => employees)(() => today())
     );
 
-    expect(emails).toEqual([new Email("Happy birthday!", "Happy birthday, dear Paolo!")]);
+    expect(birthdayEmailsCreator()).toEqual([new Email("Happy birthday!", "Happy birthday, dear Paolo!")]);
   });
 });
 
