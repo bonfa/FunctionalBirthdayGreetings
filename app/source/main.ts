@@ -9,18 +9,22 @@ import {MyDate} from "./MyDate";
   4 - send email
  */
 
-export const isBirthday: (employee: Employee) => ((day: MyDate) => (boolean)) =
+type Employees = () => Employee[];
+type Date = () => MyDate;
+type Emails = () => Email[];
+
+export const isBirthday: (employee: Employee) => (day: MyDate) => (boolean) =
   (employee: Employee) => (day => employee.dateOfBirth.month === day.month && employee.dateOfBirth.day === day.day);
 
-export const filterEmployeesHavingBirthday: (employees: () => Employee[]) => ((date: () => MyDate) => () => Employee[]) =
-  (employees: () => Employee[]) => {return (date: () => MyDate) => () => employees().filter(employee => isBirthday(employee)(date()))};
+export const filterEmployeesHavingBirthday: (employees: Employees) => (date: Date) => Employees =
+  (employees: Employees) => {return (date: Date) => () => employees().filter(employee => isBirthday(employee)(date()))};
 
-export const createBirthdayEmailsFor: (employees: () => Employee[]) => () => Email[] = (employees: () => Employee[]) => {
+export const createBirthdayEmailsFor: (employees: Employees) => Emails = (employees: Employees) => {
   return () => employees().map(e => createBirthdayEmailFor(e))
 };
 
-const sendEmails: (emails: () => Email[]) => () => void =
-  (emails: () => Email[]) => () => { emails().forEach( email => console.log(`SUBJECT: ${email.subject}`+'\n'+`   TEXT: ${email.text}`))};
+const sendEmails: (emails: Emails) => () => void =
+  (emails: Emails) => () => { emails().forEach( email => console.log(`SUBJECT: ${email.subject}`+'\n'+`   TEXT: ${email.text}`))};
 
 
 function createBirthdayEmailFor(employee: Employee) {
@@ -36,7 +40,7 @@ const removeOneDayFrom = (date: MyDate) => new MyDate(
   date.year
 );
 
-const loadEmployees: () => Employee[] = () => [
+const loadEmployees: Employees = () => [
   new Employee(
     "Paolo",
     "Rossi",
