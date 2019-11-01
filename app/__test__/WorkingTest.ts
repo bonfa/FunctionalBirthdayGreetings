@@ -42,7 +42,7 @@ describe('createBirthdayEmailsForEmployees', () => {
       )];
 
     const birthdayEmailsCreator = createBirthdayEmailsFor(
-      () => filterEmployeesHavingBirthday(() => employees)(() => today())
+      filterEmployeesHavingBirthday(() => employees)(today)
     );
 
     expect(birthdayEmailsCreator()).toEqual([new Email("Happy birthday!", "Happy birthday, dear Paolo!")]);
