@@ -12,6 +12,7 @@ import {MyDate} from "./MyDate";
 type Employees = () => Employee[];
 type Date = () => MyDate;
 type Emails = () => Email[];
+type Void = () => void;
 
 export const isBirthday: (employee: Employee) => (day: MyDate) => (boolean) =
   (employee: Employee) => (day => employee.dateOfBirth.month === day.month && employee.dateOfBirth.day === day.day);
@@ -23,7 +24,7 @@ export const createBirthdayEmailsFor: (employees: Employees) => Emails = (employ
   return () => employees().map(e => createBirthdayEmailFor(e))
 };
 
-const sendEmails: (emails: Emails) => () => void =
+const sendEmails: (emails: Emails) => Void =
   (emails: Emails) => () => { emails().forEach( email => console.log(`SUBJECT: ${email.subject}`+'\n'+`   TEXT: ${email.text}`))};
 
 
@@ -60,9 +61,15 @@ const today: Date = () => new MyDate(31, 10, 2019);
 const compose:(f: Employees) => (g: (employees: Employees) => (date: Date) => Employees) => (date: Date) => Employees =
               (f: Employees) => (g: (employees: Employees) => (date: Date) => Employees) => g(f);
 
+const compose2:(f: Employees) => (g: (employees: Employees) => Emails) => Emails =
+               (f: Employees) => (g: (employees: Employees) => Emails) => g(f);
+
+const compose3:(f: Emails) => (g: (emails: Emails) => Void) => Void =
+               (f: Emails) => (g: (emails: Emails) => Void) => g(f);
+
 
 // create the program
-const program = sendEmails(createBirthdayEmailsFor(compose(loadEmployees)(filterEmployeesHavingBirthday)(today)));
+const program = compose3(compose2(compose(loadEmployees)(filterEmployeesHavingBirthday)(today))(createBirthdayEmailsFor))(sendEmails);
 
 // execute the program
 program();
