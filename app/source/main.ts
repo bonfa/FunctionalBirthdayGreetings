@@ -57,8 +57,15 @@ const loadEmployees: Employees = () => [
 
 const today = () => new MyDate(31, 10, 2019);
 
+const compose: (employees: Employees, func: (employees: Employees) => (date: Date) => Employees) => (date: Date) => Employees =
+  (employees: Employees, func: (employees: Employees) => (date: Date) => Employees) => {
+    return func(employees);
+};
+
+compose(loadEmployees, filterEmployeesHavingBirthday);
+
 // create the program
-const program = sendEmails(createBirthdayEmailsFor(filterEmployeesHavingBirthday(loadEmployees)(today)));
+const program = sendEmails(createBirthdayEmailsFor(compose(loadEmployees, filterEmployeesHavingBirthday)(today)));
 
 // execute the program
 program();
